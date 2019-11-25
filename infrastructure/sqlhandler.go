@@ -12,7 +12,7 @@ type SqlHandler struct {
 }
 
 func NewSqlHandler() database.SqlHandler {
-	conn, err := gorm.Open("mysql", "root:kazu121122@/go_sample?charset=utf8&parseTime=True&loc=Local")
+	conn, err := gorm.Open("mysql", "[USERNAME]:[PASSWORD]@/[DB_NAME]?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err.Error)
 	}
