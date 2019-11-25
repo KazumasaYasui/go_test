@@ -1,9 +1,12 @@
 package infrastructure
 
 import (
+	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 
+	"github.com/KazumasaYasui/go_test/env"
 	"github.com/KazumasaYasui/go_test/interfaces/database"
 )
 
@@ -12,7 +15,12 @@ type SqlHandler struct {
 }
 
 func NewSqlHandler() database.SqlHandler {
-	conn, err := gorm.Open("mysql", "[USERNAME]:[PASSWORD]@/[DB_NAME]?charset=utf8&parseTime=True&loc=Local")
+	if err := env.Load(); err != nil {
+		panic(err.Error)
+	}
+	var dbConnectInfo = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", env.App().Username, env.App().Password, env.App().Dbname)
+	conn, err := gorm.Open("mysql", dbConnectInfo)
+
 	if err != nil {
 		panic(err.Error)
 	}
